@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Your Digital Future | Options</title>
+    
+    <!-- Web App Manifest & iOS Meta Tags for Fullscreen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Options">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#0A0A0A">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0A0A0A',
+                            card: '#171717',
+                            accent: '#EF4444',
+                            secondary: '#EAB308'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+            background-color: #0A0A0A;
+            /* Safe area insets for notched devices like newer iPads */
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+        
+        .view-section {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+        
+        .view-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.98);
+            z-index: 0;
+        }
+        
+        .view-active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+            z-index: 10;
+        }
+
+        .no-select {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        button, .tap-target {
+            min-height: 44px;
+        }
+
+        .glass {
+            background: rgba(23, 23, 23, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="text-neutral-300 font-sans antialiased no-select flex flex-col relative">
+
+    <!-- Navigation Bar -->
+    <nav class="h-16 shrink-0 w-full z-40 bg-brand-card flex items-center justify-between px-6 shadow-md relative border-b border-neutral-800">
+        <div class="text-white font-bold text-xl flex items-center gap-2 cursor-pointer" onclick="switchView('home')">
+            <div class="bg-brand-accent/20 p-1.5 rounded-lg text-brand-accent">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            </div>
+            Digital Futures
+        </div>
+        
+        <div class="flex bg-neutral-800 p-1 rounded-xl border border-neutral-700 hidden md:flex">
+            <button onclick="switchView('home')" id="nav-home" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-neutral-600 transition-colors">Home</button>
+            <button onclick="switchView('careers')" id="nav-careers" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Careers</button>
+            <button onclick="switchView('subjects')" id="nav-subjects" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Subjects</button>
+            <button onclick="switchView('future')" id="nav-future" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Future & AI</button>
+        </div>
+
+        <button onclick="startQuiz()" class="bg-brand-accent hover:bg-red-500 text-white font-bold px-4 md:px-5 py-2 rounded-xl transition-colors active:scale-95 text-sm flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span class="hidden md:inline">Find My Path</span>
+            <span class="md:hidden">Quiz</span>
+        </button>
+    </nav>
+    
+    <!-- Mobile Bottom Nav -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-brand-card border-t border-neutral-800 flex justify-around p-2 z-40 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+        <button onclick="switchView('home')" id="nav-home-mob" class="nav-btn flex flex-col items-center text-white bg-neutral-800 p-2 rounded-lg w-16">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="text-[10px] mt-1 font-semibold">Home</span>
+        </button>
+        <button onclick="switchView('careers')" id="nav-careers-mob" class="nav-btn flex flex-col items-center text-neutral-400 p-2 rounded-lg w-16">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <span class="text-[10px] mt-1 font-semibold">Careers</span>
+        </button>
+        <button onclick="switchView('subjects')" id="nav-subjects-mob" class="nav-btn flex flex-col items-center text-neutral-400 p-2 rounded-lg w-16">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            <span class="text-[10px] mt-1 font-semibold">Subjects</span>
+        </button>
+        <button onclick="switchView('future')" id="nav-future-mob" class="nav-btn flex flex-col items-center text-neutral-400 p-2 rounded-lg w-16">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            <span class="text-[10px] mt-1 font-semibold">Future</span>
+        </button>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 relative w-full overflow-hidden p-6 md:p-8 flex items-center justify-center mb-16 md:mb-0">
+
+        <!-- ================= HOME VIEW ================= -->
+        <section id="view-home" class="view-section view-active absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-8 z-10">
+            <div class="max-w-3xl">
+                <div class="inline-block bg-brand-accent/10 border border-brand-accent text-brand-accent px-4 py-1.5 rounded-full text-xs md:text-sm font-bold mb-4 md:mb-6 tracking-wide">
+                    Year 9 Options Event
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-4 md:mb-6 leading-tight tracking-tight">
+                    Shape the Future.<br>
+                    <span class="text-brand-accent">Choose Technology.</span>
+                </h1>
+                <p class="text-base md:text-xl text-neutral-400 mb-8 md:mb-10 leading-relaxed max-w-2xl mx-auto px-4">
+                    Whether you want to build AI systems (Computer Science) or design the interactive apps people use every day (DIT), your journey starts here.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 w-full px-4">
+                    <button onclick="startQuiz()" class="w-full sm:w-auto bg-brand-accent hover:bg-red-500 text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-xl transition-colors active:scale-95 flex items-center justify-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m12 16 4-4-4-4"/><path d="M8 12h8"/></svg>
+                        Take the 10-Question Quiz
+                    </button>
+                    <button onclick="switchView('careers')" class="w-full sm:w-auto bg-brand-card hover:bg-neutral-800 text-white font-bold text-base md:text-lg px-6 md:px-8 py-3 md:py-4 rounded-xl border border-neutral-700 transition-colors flex items-center justify-center gap-2">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                        Explore Careers
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CAREERS VIEW ================= -->
+        <section id="view-careers" class="view-section view-hidden absolute inset-0 p-4 md:p-6 flex flex-col overflow-y-auto pb-24 md:pb-6 custom-scroll">
+            <div class="text-center mb-6 shrink-0 mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">High-Paying Tech Careers</h2>
+                <p class="text-sm md:text-base text-neutral-400">Tap a career path to see potential salaries, required qualifications, and details.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 flex-1 max-w-5xl mx-auto w-full">
+                <!-- Software -->
+                <div onclick="openCareer('software')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-accent active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+                    <div class="flex items-center gap-4 mb-3 shrink-0">
+                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-brand-accent group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white leading-tight">Software / AI<br>Developer</h3>
+                        </div>
+                    </div>
+                    <p class="text-neutral-400 text-sm flex-1 mb-4">Write the code that powers mobile apps, artificial intelligence, and global systems.</p>
+                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+                        <div>
+                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
+                            <span class="text-brand-secondary font-bold">£35k - £120k+</span>
+                        </div>
+                        <span class="text-brand-accent text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </div>
+                </div>
+
+                <!-- Cybersecurity -->
+                <div onclick="openCareer('cyber')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-white active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+                    <div class="flex items-center gap-4 mb-3 shrink-0">
+                        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white leading-tight">Cybersecurity<br>Analyst</h3>
+                        </div>
+                    </div>
+                    <p class="text-neutral-400 text-sm flex-1 mb-4">Protect companies, governments, and individuals from digital threats and hackers.</p>
+                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+                        <div>
+                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
+                            <span class="text-white font-bold">£30k - £100k+</span>
+                        </div>
+                        <span class="text-white text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </div>
+                </div>
+
+                <!-- UI/UX -->
+                <div onclick="openCareer('uiux')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-secondary active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+                    <div class="flex items-center gap-4 mb-3 shrink-0">
+                        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center text-brand-secondary group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white leading-tight">UI / UX<br>Designer</h3>
+                        </div>
+                    </div>
+                    <p class="text-neutral-400 text-sm flex-1 mb-4">Design the interactive kiosks, mobile apps, and websites of the future.</p>
+                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+                        <div>
+                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
+                            <span class="text-brand-secondary font-bold">£28k - £85k+</span>
+                        </div>
+                        <span class="text-brand-secondary text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </div>
+                </div>
+
+                <!-- Data Analyst -->
+                <div onclick="openCareer('data')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-accent active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+                    <div class="flex items-center gap-4 mb-3 shrink-0">
+                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-brand-accent group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-white leading-tight">Data Analyst &<br>Manager</h3>
+                        </div>
+                    </div>
+                    <p class="text-neutral-400 text-sm flex-1 mb-4">Use spreadsheets and data modelling to help businesses make critical decisions.</p>
+                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+                        <div>
+                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
+                            <span class="text-brand-accent font-bold">£32k - £90k+</span>
+                        </div>
+                        <span class="text-brand-accent text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SUBJECTS VIEW ================= -->
+        <section id="view-subjects" class="view-section view-hidden absolute inset-0 p-4 md:p-6 flex flex-col overflow-y-auto pb-24 md:pb-6 custom-scroll">
+            <div class="text-center mb-4 shrink-0 mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-1">Compare The Specifications</h2>
+                <p class="text-sm md:text-base text-neutral-400">Tap on a subject to see a full breakdown of the modules and topics.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 max-w-5xl mx-auto w-full">
+                <!-- OCR Card (J277) -->
+                <div onclick="openSubject('j277')" class="bg-brand-card rounded-2xl p-6 border-t-4 border-brand-accent shadow-xl flex flex-col relative overflow-hidden cursor-pointer hover:bg-neutral-800 transition-colors group active:scale-[0.98]">
+                    <div class="absolute -right-4 -top-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-500">
+                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    </div>
+                    <div class="mb-5 shrink-0 flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-1">OCR J277</h3>
+                            <h4 class="text-base md:text-lg font-medium text-brand-accent">GCSE Computer Science</h4>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-brand-accent/20 flex items-center justify-center text-brand-accent shrink-0">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </div>
+                    </div>
+                    
+                    <p class="text-neutral-400 mb-6 flex-1 text-sm leading-relaxed pr-2 md:pr-8">
+                        Dive deep into how computers actually work. You'll learn the architecture of the CPU, how data is stored in binary, how networks communicate, and how to write practical code in a language like Python.
+                    </p>
+                    
+                    <div class="bg-neutral-900 rounded-xl p-4 border border-neutral-700 shrink-0 mt-auto">
+                        <span class="block text-brand-accent font-bold mb-1 text-sm">Graded 9-1:</span>
+                        <p class="text-xs md:text-sm text-neutral-300 leading-snug mt-1">100% written exams at the end of Year 11. Heavy focus on technical theory and coding logic.</p>
+                    </div>
+                    
+                    <div class="mt-4 flex items-center justify-center text-brand-accent text-sm font-bold gap-2">
+                        Tap to view topic breakdown
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                </div>
+
+                <!-- Pearson DIT Card -->
+                <div onclick="openSubject('dit')" class="bg-brand-card rounded-2xl p-6 border-t-4 border-brand-secondary shadow-xl flex flex-col relative overflow-hidden cursor-pointer hover:bg-neutral-800 transition-colors group active:scale-[0.98]">
+                    <div class="absolute -right-4 -top-4 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-500">
+                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                    </div>
+                    <div class="mb-5 shrink-0 flex justify-between items-start">
+                        <div>
+                            <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Pearson Level 1/2</h3>
+                            <h4 class="text-base md:text-lg font-medium text-brand-secondary">BTEC Tech Award in DIT</h4>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-brand-secondary/20 flex items-center justify-center text-brand-secondary shrink-0">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                    </div>
+                    
+                    <p class="text-neutral-400 mb-6 flex-1 text-sm leading-relaxed pr-2 md:pr-8">
+                        Focus on the practical application of software. You'll complete large coursework projects designing UIs in PowerPoint, and building interactive data dashboards using Microsoft Excel formulas.
+                    </p>
+                    
+                    <div class="bg-neutral-900 rounded-xl p-4 border border-neutral-700 shrink-0 mt-auto">
+                        <span class="block text-brand-secondary font-bold mb-1 text-sm">Graded Pass/Merit/Distinction:</span>
+                        <p class="text-xs md:text-sm text-neutral-300 leading-snug mt-1">This is a vocational BTEC, not a GCSE. It heavily features ongoing practical coursework rather than just exams.</p>
+                    </div>
+                    
+                    <div class="mt-4 flex items-center justify-center text-brand-secondary text-sm font-bold gap-2">
+                        Tap to view topic breakdown
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= AI & FUTURE VIEW ================= -->
+        <section id="view-future" class="view-section view-hidden absolute inset-0 p-4 md:p-6 flex flex-col overflow-y-auto pb-24 md:pb-6 custom-scroll">
+            <div class="text-center mb-6 shrink-0 mt-2">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-2">The Global Job Market & AI</h2>
+                <p class="text-sm md:text-base text-neutral-400 max-w-2xl mx-auto">Technology is the world's fastest-growing industry. See why choosing a computing qualification secures your future.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 flex-1 max-w-6xl mx-auto w-full">
+                <!-- AI Impact -->
+                <div class="bg-brand-card p-6 rounded-2xl border border-neutral-700 flex flex-col shadow-lg">
+                    <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-red-500 mb-4 shrink-0">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 shrink-0">AI Upgrades Jobs</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed">
+                        "Will AI take my job?" No. AI automates boring tasks. The workforce desperately needs humans to do the creative problem-solving, build the AI models, and design interfaces that make AI easy for the public to use.
+                    </p>
+                </div>
+                
+                <!-- International -->
+                <div class="bg-brand-card p-6 rounded-2xl border border-neutral-700 flex flex-col shadow-lg">
+                    <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white mb-4 shrink-0">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 shrink-0">Work Anywhere</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed">
+                        Tech skills are universal. A qualification in CS or DIT opens global doors. You can travel abroad, or sit comfortably in the UK and work entirely remotely for massive international companies in the US, Europe, or Asia.
+                    </p>
+                </div>
+
+                <!-- Salaries -->
+                <div class="bg-brand-card p-6 rounded-2xl border border-neutral-700 flex flex-col shadow-lg">
+                    <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center text-yellow-500 mb-4 shrink-0">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2 shrink-0">High Earning Potential</h3>
+                    <p class="text-neutral-400 text-sm leading-relaxed">
+                        Due to the massive global shortage of skilled tech workers, starting salaries are significantly higher than average. You can enter the industry via University, or take a highly-paid Degree Apprenticeship right after school.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= MODALS ================= -->
+    
+    <!-- Career Details Modal -->
+    <div id="career-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-6 bg-brand-dark/95 glass pt-[max(1rem,env(safe-area-inset-top))]">
+        <div class="bg-brand-card rounded-2xl w-full max-w-3xl h-full max-h-[650px] border border-neutral-700 shadow-xl flex flex-col transform transition-all">
+            <div class="p-4 md:p-6 border-b border-neutral-700 flex justify-between items-start shrink-0">
+                <div class="flex items-center gap-4 md:gap-5">
+                    <div id="career-modal-icon" class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center shrink-0"></div>
+                    <div>
+                        <h2 id="career-modal-title" class="text-2xl md:text-3xl font-bold text-white mb-1">Role Title</h2>
+                        <p id="career-modal-salary" class="text-brand-secondary font-bold text-base md:text-lg">£XX,XXX</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('career-modal')" class="p-2 bg-neutral-800 rounded-full text-neutral-400 hover:text-white transition-colors active:scale-90">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="p-4 md:p-6 flex-1 flex flex-col gap-4 overflow-y-auto custom-scroll">
+                <div class="bg-neutral-800/40 p-4 rounded-xl border border-neutral-700/50">
+                    <h3 class="text-white font-bold mb-1 text-sm">What you'll do:</h3>
+                    <p id="career-modal-desc" class="text-neutral-300 text-sm leading-relaxed"></p>
+                </div>
+                <div class="bg-neutral-800/40 p-4 rounded-xl border border-neutral-700/50">
+                    <h3 class="text-white font-bold mb-1 text-sm">Future & AI Impact:</h3>
+                    <p id="career-modal-future" class="text-neutral-300 text-sm leading-relaxed"></p>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-auto shrink-0">
+                    <div class="bg-neutral-900 p-4 rounded-xl border border-neutral-700">
+                        <h3 class="text-white font-bold mb-1 text-xs uppercase tracking-wider text-neutral-500">The Pathway</h3>
+                        <p id="career-modal-quals" class="text-sm text-neutral-300 font-medium"></p>
+                    </div>
+                    <div class="bg-neutral-900 p-4 rounded-xl border border-neutral-700">
+                        <h3 class="text-white font-bold mb-1 text-xs uppercase tracking-wider text-neutral-500">Pairs well with</h3>
+                        <p id="career-modal-subjects" class="text-sm text-neutral-300 font-medium"></p>
+                    </div>
+                </div>
+                
+                <div id="career-modal-cta-box" class="p-4 rounded-xl border mt-2 flex flex-col sm:flex-row justify-between items-center gap-4 bg-neutral-900 shrink-0 text-center sm:text-left">
+                    <div>
+                        <span class="text-xs text-neutral-400 block mb-0.5">Recommended Subject:</span>
+                        <span id="career-modal-subject-text" class="text-lg font-bold"></span>
+                    </div>
+                    <button onclick="navToSubjectsFromModal()" class="w-full sm:w-auto bg-white text-brand-dark px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-neutral-200 transition-colors active:scale-95">View Specifications</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subject Breakdown Modal -->
+    <div id="subject-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-6 bg-brand-dark/95 glass pt-[max(1rem,env(safe-area-inset-top))]">
+        <div class="bg-brand-card rounded-2xl w-full max-w-4xl h-full max-h-[800px] border border-neutral-700 shadow-xl flex flex-col transform transition-all overflow-hidden">
+            <div id="subject-modal-header" class="p-4 md:p-6 border-b border-neutral-700 flex justify-between items-start shrink-0 relative overflow-hidden">
+                <div id="subject-modal-bg-icon" class="absolute -right-4 -top-4 opacity-10 pointer-events-none"></div>
+                <div class="flex items-center gap-4 md:gap-5 relative z-10">
+                    <div id="subject-modal-icon" class="w-12 h-12 md:w-16 md:h-16 rounded-xl flex items-center justify-center shrink-0"></div>
+                    <div>
+                        <h2 id="subject-modal-title" class="text-2xl md:text-3xl font-bold text-white mb-1">Subject Title</h2>
+                        <p id="subject-modal-type" class="font-bold text-base md:text-lg leading-tight">Type</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('subject-modal')" class="p-2 bg-neutral-800 rounded-full text-neutral-400 hover:text-white transition-colors active:scale-90 relative z-10">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="p-4 md:p-6 flex-1 overflow-y-auto custom-scroll bg-brand-dark/30">
+                <div id="subject-modal-content" class="flex flex-col gap-6">
+                    <!-- Dynamic content injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-6 bg-brand-dark/95 glass pt-[max(1rem,env(safe-area-inset-top))]">
+        <div class="bg-brand-card w-full max-w-3xl h-full max-h-[650px] rounded-2xl border border-neutral-700 shadow-xl flex flex-col overflow-hidden">
+            
+            <div class="p-4 md:p-5 border-b border-neutral-800 flex justify-between items-center bg-neutral-900 shrink-0">
+                <h2 class="text-lg md:text-xl font-bold text-white flex items-center gap-2">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-brand-accent"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Find Your Path
+                </h2>
+                <button onclick="closeModal('quiz-modal')" class="text-neutral-400 hover:text-white active:scale-90 p-1">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="w-full bg-neutral-800 h-1.5 shrink-0">
+                <div id="quiz-progress" class="bg-brand-accent h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <div id="quiz-content" class="p-6 md:p-8 flex-1 flex flex-col justify-center overflow-y-auto custom-scroll">
+                <div class="text-center mb-6 md:mb-8 shrink-0">
+                    <span id="quiz-q-num" class="text-brand-accent font-bold text-xs md:text-sm uppercase tracking-wider">Question 1 of 10</span>
+                    <h3 id="quiz-question" class="text-xl md:text-3xl font-bold text-white mt-2 md:mt-3 leading-tight">Question text goes here?</h3>
+                </div>
+                <div class="space-y-3 md:space-y-4 w-full max-w-2xl mx-auto" id="quiz-options"></div>
+            </div>
+
+            <div id="quiz-results" class="p-6 md:p-8 flex-1 flex flex-col items-center justify-center text-center hidden overflow-y-auto custom-scroll">
+                <div class="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-accent mb-4 shrink-0">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <h3 class="text-xl md:text-2xl font-bold text-white mb-1">Your Ideal Career is:</h3>
+                <h2 id="result-career" class="text-3xl md:text-4xl font-extrabold text-white mb-4">Career Title</h2>
+                
+                <p id="result-desc" class="text-neutral-300 mb-6 max-w-xl mx-auto text-sm"></p>
+                
+                <div id="result-subject-box" class="bg-neutral-900 border p-4 md:p-5 rounded-xl mb-6 md:mb-8 w-full max-w-md">
+                    <p class="text-xs md:text-sm text-neutral-400 mb-1">The perfect pathway for you is:</p>
+                    <h4 id="result-subject" class="text-xl md:text-2xl font-bold text-white">Subject Name</h4>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center shrink-0 w-full max-w-md">
+                    <button id="result-btn-career" class="flex-1 bg-brand-card border border-neutral-600 hover:bg-neutral-700 text-white font-bold py-3 px-4 rounded-xl transition-colors active:scale-95 text-sm">Read About Career</button>
+                    <button id="result-btn-subject" class="flex-1 bg-brand-accent hover:bg-red-500 text-white font-bold py-3 px-4 rounded-xl transition-colors active:scale-95 text-sm">View Subjects</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script>
+        // --- View Navigation System ---
+        function switchView(viewId) {
+            // Desktop nav styles
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                if (btn.id.includes('mob')) return;
+                btn.classList.remove('bg-neutral-600', 'text-white');
+                btn.classList.add('text-neutral-400');
+            });
+            const activeBtn = document.getElementById(`nav-${viewId}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-neutral-600', 'text-white');
+                activeBtn.classList.remove('text-neutral-400');
+            }
+
+            // Mobile nav styles
+            document.querySelectorAll('[id$="-mob"]').forEach(btn => {
+                btn.classList.remove('bg-neutral-800', 'text-white');
+                btn.classList.add('text-neutral-400');
+            });
+            const activeBtnMob = document.getElementById(`nav-${viewId}-mob`);
+            if(activeBtnMob) {
+                activeBtnMob.classList.add('bg-neutral-800', 'text-white');
+                activeBtnMob.classList.remove('text-neutral-400');
+            }
+
+            // Content visibility
+            document.querySelectorAll('.view-section').forEach(section => {
+                if (section.id === `view-${viewId}`) {
+                    section.classList.remove('view-hidden');
+                    section.classList.add('view-active');
+                } else {
+                    section.classList.remove('view-active');
+                    section.classList.add('view-hidden');
+                }
+            });
+        }
+
+        // --- Data Definitions: Careers ---
+        const careers = {
+            software: {
+                id: 'software',
+                title: "Software / AI Developer",
+                salary: "£35,000 - £120,000+",
+                quals: "GCSE CS ➔ A-Levels ➔ Degree / Apprenticeship",
+                subjects: "Maths, Physics, Further Maths",
+                desc: "Write the code that powers the world. From mobile apps to artificial intelligence, developers are the architects of the digital age. You'll spend your days solving complex logic puzzles and building systems from scratch.",
+                future: "AI is creating massive demand for developers who can build and maintain machine learning models. Highly remote-friendly, allowing you to work globally.",
+                subjectText: "OCR J277 Computer Science",
+                colorClass: "text-brand-accent",
+                bgClass: "bg-red-500/20",
+                borderClass: "border-brand-accent",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>'
+            },
+            cyber: {
+                id: 'cyber',
+                title: "Cybersecurity Analyst",
+                salary: "£30,000 - £100,000+",
+                quals: "GCSE CS ➔ Certifications ➔ Degree / Appr.",
+                subjects: "Maths, Sciences",
+                desc: "Protect companies, governments, and individuals from digital threats and hackers. You will analyze networks for vulnerabilities, write scripts to automate defenses, and track down cyber criminals.",
+                future: "As more businesses move online, cybersecurity is one of the fastest-growing sectors globally. Excellent opportunities for international travel and consulting.",
+                subjectText: "OCR J277 Computer Science",
+                colorClass: "text-white",
+                bgClass: "bg-white/10",
+                borderClass: "border-white",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+            },
+            uiux: {
+                id: 'uiux',
+                title: "UI/UX Designer",
+                salary: "£28,000 - £85,000+",
+                quals: "BTEC DIT ➔ Creative A-Levels ➔ Design Degree",
+                subjects: "Art & Design, Media, Business",
+                desc: "Design the interactive kiosks, mobile apps, and websites of the future. You'll focus on making technology beautiful and incredibly easy for humans to use, blending art with tech.",
+                future: "AI can write basic code, but human empathy and design thinking are irreplaceable. UX designers are crucial for making complex AI systems accessible.",
+                subjectText: "Pearson BTEC DIT",
+                colorClass: "text-brand-secondary",
+                bgClass: "bg-yellow-500/20",
+                borderClass: "border-brand-secondary",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'
+            },
+            data: {
+                id: 'data',
+                title: "Data Analyst & Manager",
+                salary: "£32,000 - £90,000+",
+                quals: "BTEC DIT ➔ Business IT A-Levels ➔ Degree",
+                subjects: "Business Studies, Maths, Economics",
+                desc: "Use spreadsheets and data modelling to help businesses make critical decisions. You will organize massive amounts of information to find trends and manage large tech projects.",
+                future: "Data is the new oil. Every international business needs experts who can model data and manage digital workflows. This is a great pathway into senior management.",
+                subjectText: "Pearson BTEC DIT",
+                colorClass: "text-brand-accent",
+                bgClass: "bg-red-500/20",
+                borderClass: "border-brand-accent",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>'
+            }
+        };
+
+        // --- Data Definitions: Subject Breakdowns ---
+        const subjectsData = {
+            j277: {
+                title: "OCR J277",
+                type: "GCSE Computer Science",
+                colorClass: "text-brand-accent",
+                bgClass: "bg-red-500/20",
+                borderClass: "border-brand-accent",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+                components: [
+                    {
+                        title: "Component 01: Computer Systems",
+                        weight: "50% of GCSE (1hr 30m Written Exam)",
+                        topics: [
+                            { name: "1.1 Systems Architecture", details: "The architecture of the CPU, the Fetch-Execute cycle, CPU performance factors (clock speed, cores, cache), and the purpose of embedded systems." },
+                            { name: "1.2 Memory and Storage", details: "Primary memory (RAM and ROM), Virtual Memory, secondary storage types (Magnetic, Optical, Solid State), and Data Representation (converting Binary, Hexadecimal, character sets, images, and sound into 1s and 0s)." },
+                            { name: "1.3 Computer Networks", details: "Types of networks (LAN, WAN), network topologies (Star and Mesh), protocols (HTTP, TCP/IP, etc.), and the concept of network layers." },
+                            { name: "1.4 Network Security", details: "Identifying threats to networks (malware, phishing, brute force, DDoS) and understanding prevention methods like firewalls, encryption, and anti-malware software." },
+                            { name: "1.5 Systems Software", details: "The purpose of Operating Systems, user interfaces, memory management, and utility software (defragmentation, backups)." },
+                            { name: "1.6 Ethical, Legal & Cultural Impacts", details: "How digital technology impacts society, privacy issues, open-source vs proprietary software, and key legislation (Data Protection Act, Computer Misuse Act)." }
+                        ]
+                    },
+                    {
+                        title: "Component 02: Computational Thinking, Algorithms and Programming",
+                        weight: "50% of GCSE (1hr 30m Written Exam)",
+                        topics: [
+                            { name: "2.1 Algorithms", details: "Principles of computational thinking (abstraction, decomposition), standard searching algorithms (Binary, Linear), sorting algorithms (Bubble, Merge, Insertion), and designing using flowcharts and pseudocode." },
+                            { name: "2.2 Programming Fundamentals", details: "Practical coding concepts: variables, constants, Sequence, Selection (if/else), Iteration (loops), 1D and 2D arrays, functions, and file handling (reading/writing to text files)." },
+                            { name: "2.3 Producing Robust Programs", details: "Defensive design, input validation, maintainability (comments, naming conventions), and testing strategies (identifying Syntax and Logic errors)." },
+                            { name: "2.4 Boolean Logic", details: "Understanding and combining logic gates (AND, OR, NOT) and creating truth tables for complex circuits." },
+                            { name: "2.5 Programming Languages & IDEs", details: "The difference between High-level and Low-level languages, translators (Compilers vs Interpreters), and the tools provided by Integrated Development Environments." }
+                        ]
+                    }
+                ]
+            },
+            dit: {
+                title: "Pearson BTEC Level 1/2",
+                type: "Tech Award in Digital Information Technology",
+                colorClass: "text-brand-secondary",
+                bgClass: "bg-yellow-500/20",
+                borderClass: "border-brand-secondary",
+                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>',
+                grading: [
+                    { btec: "Level 1 Pass (L1P)", gcse: "1" },
+                    { btec: "Level 1 Merit (L1M)", gcse: "2" },
+                    { btec: "Level 1 Distinction (L1D)", gcse: "3" },
+                    { btec: "Level 2 Pass (L2P)", gcse: "4" },
+                    { btec: "Level 2 Merit (L2M)", gcse: "5.5" },
+                    { btec: "Level 2 Distinction (L2D)", gcse: "7" },
+                    { btec: "Level 2 Distinction* (L2D*)", gcse: "8.5" }
+                ],
+                components: [
+                    {
+                        title: "Component 1: Exploring User Interface Design Principles",
+                        weight: "30% (Internal Coursework Assessment)",
+                        topics: [
+                            { name: "Task 1a: Project Proposal", details: "A written task completed in <strong>Microsoft Word</strong> where you outline the project requirements and formally propose a solution for a client." },
+                            { name: "Task 1b: Project Planning", details: "Applying project planning techniques to map out your timeline. You will create professional Gantt Charts and PERT Charts using <strong>Microsoft Excel</strong>." },
+                            { name: "Task 2: UI Storyboarding", details: "Creating a detailed storyboard and visual sketches of the design for an interactive kiosk. This is drafted and formatted using <strong>Microsoft PowerPoint</strong>." },
+                            { name: "Task 3: Working Prototype", details: "Building the fully functional, interactive working prototype for the kiosk utilizing the interactive linking and design tools inside <strong>Microsoft PowerPoint</strong>." },
+                            { name: "Task 4: Project Evaluation", details: "A final written evaluation of the project's success and a review of your own performance, formally structured and completed in <strong>Microsoft Word</strong>." }
+                        ]
+                    },
+                    {
+                        title: "Component 2: Collecting, Presenting and Interpreting Data",
+                        weight: "30% (Internal Coursework Assessment)",
+                        topics: [
+                            { name: "Building Data Dashboards", details: "You will use Microsoft Excel to manipulate provided data. You will use complex formulas and formatting to create a fully functioning, interactive dashboard." },
+                            { name: "Interpreting Trends", details: "Analyze the Excel dashboard you built to spot business trends, draw conclusions, and formally present your findings based on the data." }
+                        ]
+                    },
+                    {
+                        title: "Component 3: Effective Digital Working Practices",
+                        weight: "40% (External Written Exam)",
+                        topics: [
+                            { name: "General Computing Knowledge", details: "A written exam testing your broad understanding of modern technologies, including cloud computing, digital communication, and how organizations collaborate." },
+                            { name: "Cyber Security & Ethics", details: "Understanding threats to digital systems, how to prevent breaches, and exploring the wider legal, ethical, and environmental considerations of technology." }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        const quizQuestions = [
+            { q: "What sounds cooler to you?", options: [{ text: "Creating an AI program from scratch.", target: "software" }, { text: "Designing a touchscreen interface for a store.", target: "uiux" }] },
+            { q: "You are tasked with solving a problem. Do you:", options: [{ text: "Dig into the hidden technical details to find the flaw.", target: "cyber" }, { text: "Look at the business numbers and charts to spot a trend.", target: "data" }] },
+            { q: "If an app crashes on your phone, what is your reaction?", options: [{ text: "\"I wonder what line of code caused that bug.\"", target: "software" }, { text: "\"They really need to design a better menu system.\"", target: "uiux" }] },
+            { q: "Which other subjects do you enjoy more?", options: [{ text: "Maths and Sciences.", target: "cyber" }, { text: "Business Studies and Economics.", target: "data" }] },
+            { q: "How do you prefer to handle large amounts of information?", options: [{ text: "Write a Python script to sort it all automatically.", target: "software" }, { text: "Use advanced spreadsheet formulas and beautiful graphs.", target: "data" }] },
+            { q: "If you worked for a big tech company, you would rather:", options: [{ text: "Protect the network from international hackers.", target: "cyber" }, { text: "Manage the project and understand what users need.", target: "uiux" }] },
+            { q: "What kind of puzzle do you like most?", options: [{ text: "Logic puzzles and cracking secret codes.", target: "cyber" }, { text: "Organizing a messy set of files into a perfect layout.", target: "data" }] },
+            { q: "When playing a video game, you are more likely to:", options: [{ text: "Think about how the physics engine is programmed.", target: "software" }, { text: "Appreciate how good the inventory screens look.", target: "uiux" }] },
+            { q: "How do you feel about learning strict coding rules?", options: [{ text: "Bring it on! I love learning how complex systems work.", target: "software" }, { text: "I'd rather use visual tools to model business decisions.", target: "data" }] },
+            { q: "What kind of impact do you want to have?", options: [{ text: "Securing the internet and building new tech engines.", target: "cyber" }, { text: "Helping people use technology more intuitively.", target: "uiux" }] }
+        ];
+
+        // --- Modal & State Logic ---
+        let currentQuestionIdx = 0;
+        let scores = { software: 0, cyber: 0, uiux: 0, data: 0 };
+        let finalCareerId = '';
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        document.querySelectorAll('.glass').forEach(el => {
+            el.addEventListener('click', function(e) {
+                if (e.target === this) closeModal(this.id);
+            });
+        });
+
+        function navToSubjectsFromModal() {
+            closeModal('career-modal');
+            closeModal('quiz-modal');
+            switchView('subjects');
+        }
+
+        // --- Career Modal Population ---
+        function openCareer(id) {
+            const data = careers[id];
+            
+            document.getElementById('career-modal-title').innerText = data.title;
+            document.getElementById('career-modal-salary').innerText = data.salary;
+            document.getElementById('career-modal-desc').innerText = data.desc;
+            document.getElementById('career-modal-future').innerText = data.future;
+            document.getElementById('career-modal-quals').innerText = data.quals;
+            document.getElementById('career-modal-subjects').innerText = data.subjects;
+            
+            const subjectTextEl = document.getElementById('career-modal-subject-text');
+            subjectTextEl.innerText = data.subjectText;
+            subjectTextEl.className = `text-base md:text-lg font-bold ${data.colorClass}`;
+            
+            const iconContainer = document.getElementById('career-modal-icon');
+            iconContainer.innerHTML = data.icon;
+            iconContainer.className = `w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center shrink-0 ${data.bgClass} ${data.colorClass}`;
+            
+            const ctaBox = document.getElementById('career-modal-cta-box');
+            ctaBox.className = `p-4 md:p-5 rounded-xl border mt-2 flex flex-col sm:flex-row justify-between items-center gap-4 bg-neutral-900 shrink-0 text-center sm:text-left ${data.borderClass}`;
+
+            openModal('career-modal');
+        }
+
+        // --- Subject Breakdown Modal Population ---
+        function openSubject(subjectId) {
+            const data = subjectsData[subjectId];
+            
+            // Header
+            document.getElementById('subject-modal-title').innerText = data.title;
+            const typeEl = document.getElementById('subject-modal-type');
+            typeEl.innerText = data.type;
+            typeEl.className = `font-bold text-base md:text-lg leading-tight ${data.colorClass}`;
+            
+            const iconContainer = document.getElementById('subject-modal-icon');
+            iconContainer.innerHTML = data.icon;
+            iconContainer.className = `w-12 h-12 md:w-16 md:h-16 rounded-2xl flex items-center justify-center shrink-0 ${data.bgClass} ${data.colorClass}`;
+            
+            const bgIcon = document.getElementById('subject-modal-bg-icon');
+            bgIcon.innerHTML = `<svg width="250" height="250" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${data.icon.match(/<svg[^>]*>([\s\S]*?)<\/svg>/)[1]}</svg>`;
+
+            const headerEl = document.getElementById('subject-modal-header');
+            headerEl.className = `p-4 md:p-6 border-b border-neutral-700 flex justify-between items-start shrink-0 relative overflow-hidden bg-gradient-to-br from-brand-card to-brand-card`;
+            
+            const contentContainer = document.getElementById('subject-modal-content');
+            contentContainer.innerHTML = '';
+
+            // Inject Grading Comparison if it exists (for BTEC)
+            if (data.grading) {
+                const gradingSection = document.createElement('div');
+                gradingSection.className = `bg-brand-card rounded-xl border border-neutral-700 overflow-hidden shadow-lg border-l-4 ${data.borderClass}`;
+                
+                let tableRows = data.grading.map(g => `
+                    <tr class="border-t border-neutral-700/50 hover:bg-neutral-800/50 transition-colors">
+                        <td class="p-2 md:p-3 text-white font-medium">${g.btec}</td>
+                        <td class="p-2 md:p-3 text-brand-secondary font-bold text-right">${g.gcse}</td>
+                    </tr>
+                `).join('');
+
+                gradingSection.innerHTML = `
+                    <div class="bg-neutral-800 p-3 md:p-4 border-b border-neutral-700">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1">Grading Comparison</h3>
+                        <p class="text-xs md:text-sm text-neutral-400">Vocational grades translated to 9-1 GCSE numbers.</p>
+                    </div>
+                    <div class="p-1 md:p-2">
+                        <table class="w-full text-left text-xs md:text-sm">
+                            <thead>
+                                <tr class="text-neutral-500 uppercase tracking-wider text-[10px] md:text-xs">
+                                    <th class="p-2 md:p-3 font-bold">BTEC Grade</th>
+                                    <th class="p-2 md:p-3 font-bold text-right">GCSE Equivalent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${tableRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                contentContainer.appendChild(gradingSection);
+            }
+
+            // Inject Components
+            data.components.forEach(comp => {
+                const compSection = document.createElement('div');
+                compSection.className = `bg-brand-card rounded-xl border border-neutral-700 overflow-hidden shadow-lg`;
+                
+                const compHeader = document.createElement('div');
+                compHeader.className = `bg-neutral-800 p-3 md:p-4 border-b border-neutral-700 flex flex-col md:flex-row md:items-center justify-between gap-2`;
+                compHeader.innerHTML = `
+                    <h3 class="text-base md:text-xl font-bold text-white">${comp.title}</h3>
+                    <span class="inline-block text-[10px] md:text-xs font-bold uppercase tracking-wider ${data.colorClass} bg-neutral-900 px-2 md:px-3 py-1 rounded-md border border-neutral-700 self-start md:self-auto">${comp.weight}</span>
+                `;
+                compSection.appendChild(compHeader);
+
+                const topicsList = document.createElement('div');
+                topicsList.className = `p-2 md:p-4 flex flex-col gap-2 md:gap-3`;
+                
+                comp.topics.forEach(topic => {
+                    const topicItem = document.createElement('div');
+                    topicItem.className = `flex gap-3 md:gap-4 p-2 md:p-3 rounded-lg hover:bg-neutral-800/50 transition-colors`;
+                    topicItem.innerHTML = `
+                        <div class="mt-1 shrink-0 ${data.colorClass}">
+                            <svg width="16" height="16" md:width="18" md:height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </div>
+                        <div>
+                            <h4 class="text-white font-bold text-sm md:text-base mb-1">${topic.name}</h4>
+                            <p class="text-xs md:text-sm text-neutral-400 leading-relaxed">${topic.details}</p>
+                        </div>
+                    `;
+                    topicsList.appendChild(topicItem);
+                });
+                
+                compSection.appendChild(topicsList);
+                contentContainer.appendChild(compSection);
+            });
+
+            openModal('subject-modal');
+        }
+
+        // --- Quiz Logic ---
+        function startQuiz() {
+            currentQuestionIdx = 0;
+            scores = { software: 0, cyber: 0, uiux: 0, data: 0 };
+            
+            document.getElementById('quiz-content').classList.remove('hidden');
+            document.getElementById('quiz-results').classList.add('hidden');
+            
+            renderQuestion();
+            openModal('quiz-modal');
+        }
+
+        function renderQuestion() {
+            const q = quizQuestions[currentQuestionIdx];
+            
+            const progressPct = (currentQuestionIdx / quizQuestions.length) * 100;
+            document.getElementById('quiz-progress').style.width = `${progressPct}%`;
+            document.getElementById('quiz-q-num').innerText = `Question ${currentQuestionIdx + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-question').innerText = q.q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 md:p-6 rounded-xl border border-neutral-700 bg-neutral-800 hover:bg-neutral-700 hover:border-brand-accent transition-all text-white text-base md:text-xl font-medium active:scale-[0.98] shadow-sm";
+                btn.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-900 flex items-center justify-center mr-3 md:mr-5 text-xs md:text-sm font-bold shrink-0 border border-neutral-700">${index === 0 ? 'A' : 'B'}</div>
+                        <span>${opt.text}</span>
+                    </div>
+                `;
+                btn.onclick = () => handleAnswer(opt.target);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(target) {
+            scores[target]++;
+            currentQuestionIdx++;
+            
+            if (currentQuestionIdx < quizQuestions.length) {
+                renderQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-progress').style.width = `100%`;
+            
+            let maxScore = -1;
+            for (const [careerId, score] of Object.entries(scores)) {
+                if (score > maxScore) {
+                    maxScore = score;
+                    finalCareerId = careerId;
+                }
+            }
+            
+            const resultData = careers[finalCareerId];
+            
+            document.getElementById('result-career').innerText = resultData.title;
+            document.getElementById('result-career').className = `text-2xl md:text-4xl font-extrabold mb-2 md:mb-4 ${resultData.colorClass}`;
+            document.getElementById('result-desc').innerText = resultData.desc;
+            
+            const subjectEl = document.getElementById('result-subject');
+            subjectEl.innerText = resultData.subjectText;
+            subjectEl.className = `text-xl md:text-2xl font-bold ${resultData.colorClass}`;
+            
+            document.getElementById('result-subject-box').className = `bg-neutral-900 border p-4 md:p-5 rounded-xl mb-6 md:mb-8 w-full max-w-md ${resultData.borderClass}`;
+
+            document.getElementById('result-btn-career').onclick = () => {
+                closeModal('quiz-modal');
+                setTimeout(() => openCareer(finalCareerId), 50);
+            };
+            document.getElementById('result-btn-subject').onclick = navToSubjectsFromModal;
+
+            document.getElementById('quiz-content').classList.add('hidden');
+            document.getElementById('quiz-results').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
