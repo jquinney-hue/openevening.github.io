@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Your Digital Future | Options</title>
+    <title>JHNCC | Options</title>
     
     <!-- Web App Manifest & iOS Meta Tags for Fullscreen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -102,26 +102,24 @@
 <body class="text-neutral-300 font-sans antialiased no-select flex flex-col relative">
 
     <!-- Navigation Bar -->
-    <nav class="h-16 shrink-0 w-full z-40 bg-brand-card flex items-center justify-between px-6 shadow-md relative border-b border-neutral-800">
+    <nav class="h-32 shrink-0 w-full z-40 bg-brand-card flex items-center justify-between px-6 shadow-md relative border-b border-neutral-800">
         <div class="text-white font-bold text-xl flex items-center gap-2 cursor-pointer" onclick="switchView('home')">
-            <div class="bg-brand-accent/20 p-1.5 rounded-lg text-brand-accent">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+            <div>
+                <img src="https://cdn.realsmart.co.uk/889bf1be8ce96e4bba59050105a99df2/uploads/2019/03/JHNCC-Crest-Outlined.png" 
+                    alt="JHNCC Crest" 
+                    width="40" 
+                    height="40"
+                >
             </div>
-            Digital Futures
+            Computer Science & Information Technology
         </div>
         
-        <div class="flex bg-neutral-800 p-1 rounded-xl border border-neutral-700 hidden md:flex">
-            <button onclick="switchView('home')" id="nav-home" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-neutral-600 transition-colors">Home</button>
-            <button onclick="switchView('careers')" id="nav-careers" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Careers</button>
-            <button onclick="switchView('subjects')" id="nav-subjects" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Subjects</button>
-            <button onclick="switchView('future')" id="nav-future" class="nav-btn px-4 py-1.5 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Future & AI</button>
+        <div class="flex bg-neutral-800 p-1 rounded-xl border border-neutral-700 hidden md:flex w-full gap-1">
+            <button onclick="switchView('home')" id="nav-home" class="nav-btn flex-1 px-4 py-3 rounded-lg text-sm font-semibold text-white bg-neutral-600 transition-colors">Home</button>
+            <button onclick="switchView('careers')" id="nav-careers" class="nav-btn flex-1 px-4 py-3 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Careers</button>
+            <button onclick="switchView('subjects')" id="nav-subjects" class="nav-btn flex-1 px-4 py-3 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Subjects</button>
+            <button onclick="switchView('future')" id="nav-future" class="nav-btn flex-1 px-4 py-3 rounded-lg text-sm font-semibold text-neutral-400 hover:text-white transition-colors">Future & AI</button>
         </div>
-
-        <button onclick="startQuiz()" class="bg-brand-accent hover:bg-red-500 text-white font-bold px-4 md:px-5 py-2 rounded-xl transition-colors active:scale-95 text-sm flex items-center gap-2">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span class="hidden md:inline">Find My Path</span>
-            <span class="md:hidden">Quiz</span>
-        </button>
     </nav>
     
     <!-- Mobile Bottom Nav -->
@@ -183,83 +181,146 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 flex-1 max-w-5xl mx-auto w-full">
                 <!-- Software -->
                 <div onclick="openCareer('software')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-accent active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
-                    <div class="flex items-center gap-4 mb-3 shrink-0">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-brand-accent group-hover:scale-110 transition-transform">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white leading-tight">Software / AI<br>Developer</h3>
-                        </div>
-                    </div>
-                    <p class="text-neutral-400 text-sm flex-1 mb-4">Write the code that powers mobile apps, artificial intelligence, and global systems.</p>
-                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
-                        <div>
-                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
-                            <span class="text-brand-secondary font-bold">£35k - £120k+</span>
-                        </div>
-                        <span class="text-brand-accent text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
-                    </div>
-                </div>
+    <div class="flex items-center gap-4 mb-3 shrink-0">
+        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-brand-accent group-hover:scale-110 transition-transform">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold text-white leading-tight">Software / AI<br>Developer</h3>
+        </div>
+    </div>
+    <p class="text-neutral-400 text-sm flex-1 mb-4">Write the code that powers mobile apps, artificial intelligence, and global systems.</p>
+    
+    <div class="flex flex-col shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+        <span class="block text-[10px] text-neutral-500 mb-1.5 uppercase tracking-wider font-semibold">Salary Progression</span>
+        <table class="w-full text-xs mb-3">
+            <tbody>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Junior</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£35k</td>
+                </tr>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Mid-Level</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£60k</td>
+                </tr>
+                <tr>
+                    <td class="py-1 text-neutral-400">Senior</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£120k+</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-end">
+            <span class="text-brand-accent text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+        </div>
+    </div>
+</div>
 
-                <!-- Cybersecurity -->
-                <div onclick="openCareer('cyber')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-white active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
-                    <div class="flex items-center gap-4 mb-3 shrink-0">
-                        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white leading-tight">Cybersecurity<br>Analyst</h3>
-                        </div>
-                    </div>
-                    <p class="text-neutral-400 text-sm flex-1 mb-4">Protect companies, governments, and individuals from digital threats and hackers.</p>
-                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
-                        <div>
-                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
-                            <span class="text-white font-bold">£30k - £100k+</span>
-                        </div>
-                        <span class="text-white text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
-                    </div>
-                </div>
+<div onclick="openCareer('cyber')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-white active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+    <div class="flex items-center gap-4 mb-3 shrink-0">
+        <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold text-white leading-tight">Cybersecurity<br>Analyst</h3>
+        </div>
+    </div>
+    <p class="text-neutral-400 text-sm flex-1 mb-4">Protect companies, governments, and individuals from digital threats and hackers.</p>
+    
+    <div class="flex flex-col shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+        <span class="block text-[10px] text-neutral-500 mb-1.5 uppercase tracking-wider font-semibold">Salary Progression</span>
+        <table class="w-full text-xs mb-3">
+            <tbody>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Junior</td>
+                    <td class="py-1 text-right font-bold text-white">£30k</td>
+                </tr>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Mid-Level</td>
+                    <td class="py-1 text-right font-bold text-white">£55k</td>
+                </tr>
+                <tr>
+                    <td class="py-1 text-neutral-400">Senior</td>
+                    <td class="py-1 text-right font-bold text-white">£100k+</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-end">
+            <span class="text-white text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+        </div>
+    </div>
+</div>
 
-                <!-- UI/UX -->
-                <div onclick="openCareer('uiux')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-secondary active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
-                    <div class="flex items-center gap-4 mb-3 shrink-0">
-                        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center text-brand-secondary group-hover:scale-110 transition-transform">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white leading-tight">UI / UX<br>Designer</h3>
-                        </div>
-                    </div>
-                    <p class="text-neutral-400 text-sm flex-1 mb-4">Design the interactive kiosks, mobile apps, and websites of the future.</p>
-                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
-                        <div>
-                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
-                            <span class="text-brand-secondary font-bold">£28k - £85k+</span>
-                        </div>
-                        <span class="text-brand-secondary text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
-                    </div>
-                </div>
+<div onclick="openCareer('uiux')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-secondary active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+    <div class="flex items-center gap-4 mb-3 shrink-0">
+        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center text-brand-secondary group-hover:scale-110 transition-transform">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold text-white leading-tight">UI / UX<br>Designer</h3>
+        </div>
+    </div>
+    <p class="text-neutral-400 text-sm flex-1 mb-4">Design the interactive kiosks, mobile apps, and websites of the future.</p>
+    
+    <div class="flex flex-col shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+        <span class="block text-[10px] text-neutral-500 mb-1.5 uppercase tracking-wider font-semibold">Salary Progression</span>
+        <table class="w-full text-xs mb-3">
+            <tbody>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Junior</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£28k</td>
+                </tr>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Mid-Level</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£45k</td>
+                </tr>
+                <tr>
+                    <td class="py-1 text-neutral-400">Senior</td>
+                    <td class="py-1 text-right font-bold text-brand-secondary">£85k+</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-end">
+            <span class="text-brand-secondary text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+        </div>
+    </div>
+</div>
 
-                <!-- Data Analyst -->
-                <div onclick="openCareer('data')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-brand-accent active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
-                    <div class="flex items-center gap-4 mb-3 shrink-0">
-                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-brand-accent group-hover:scale-110 transition-transform">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold text-white leading-tight">Data Analyst &<br>Manager</h3>
-                        </div>
-                    </div>
-                    <p class="text-neutral-400 text-sm flex-1 mb-4">Use spreadsheets and data modelling to help businesses make critical decisions.</p>
-                    <div class="flex justify-between items-end shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
-                        <div>
-                            <span class="block text-xs text-neutral-500 mb-0.5">Potential Salary</span>
-                            <span class="text-brand-accent font-bold">£32k - £90k+</span>
-                        </div>
-                        <span class="text-brand-accent text-sm font-bold flex items-center">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
-                    </div>
-                </div>
+<div onclick="openCareer('gamedev')" class="bg-brand-card p-5 rounded-2xl border border-neutral-700 hover:border-indigo-400 active:scale-[0.98] transition-all cursor-pointer flex flex-col group">
+    <div class="flex items-center gap-4 mb-3 shrink-0">
+        <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><path d="M6.75 6L3 11l.85 7.15a2 2 0 0 0 2 1.85h12.3a2 2 0 0 0 2-1.85L21 11l-3.75-5z"/>
+            </svg>
+        </div>
+        <div>
+            <h3 class="text-xl font-bold text-white leading-tight">Video Game<br>Developer</h3>
+        </div>
+    </div>
+    <p class="text-neutral-400 text-sm flex-1 mb-4">Architect immersive worlds using C++, C#, and game engines like Unreal and Unity.</p>
+    
+    <div class="flex flex-col shrink-0 border-t border-neutral-700/50 pt-3 mt-auto">
+        <span class="block text-[10px] text-neutral-500 mb-1.5 uppercase tracking-wider font-semibold">Salary Progression</span>
+        <table class="w-full text-xs mb-3">
+            <tbody>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Junior</td>
+                    <td class="py-1 text-right font-bold text-indigo-400">£35k</td>
+                </tr>
+                <tr class="border-b border-neutral-700/30">
+                    <td class="py-1 text-neutral-400">Mid-Level</td>
+                    <td class="py-1 text-right font-bold text-indigo-400">£55k</td>
+                </tr>
+                <tr>
+                    <td class="py-1 text-neutral-400">Senior</td>
+                    <td class="py-1 text-right font-bold text-indigo-400">£95k+</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-end">
+            <span class="text-indigo-400 text-sm font-bold flex items-center group-hover:translate-x-1 transition-transform">View <svg class="ml-1 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></span>
+        </div>
+    </div>
+</div>
             </div>
         </section>
 
@@ -537,64 +598,72 @@
         }
 
         // --- Data Definitions: Careers ---
-        const careers = {
-            software: {
-                id: 'software',
-                title: "Software / AI Developer",
-                salary: "£35,000 - £120,000+",
-                quals: "GCSE CS ➔ A-Levels ➔ Degree / Apprenticeship",
-                subjects: "Maths, Physics, Further Maths",
-                desc: "Write the code that powers the world. From mobile apps to artificial intelligence, developers are the architects of the digital age. You'll spend your days solving complex logic puzzles and building systems from scratch.",
-                future: "AI is creating massive demand for developers who can build and maintain machine learning models. Highly remote-friendly, allowing you to work globally.",
-                subjectText: "OCR J277 Computer Science",
-                colorClass: "text-brand-accent",
-                bgClass: "bg-red-500/20",
-                borderClass: "border-brand-accent",
-                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>'
-            },
-            cyber: {
-                id: 'cyber',
-                title: "Cybersecurity Analyst",
-                salary: "£30,000 - £100,000+",
-                quals: "GCSE CS ➔ Certifications ➔ Degree / Appr.",
-                subjects: "Maths, Sciences",
-                desc: "Protect companies, governments, and individuals from digital threats and hackers. You will analyze networks for vulnerabilities, write scripts to automate defenses, and track down cyber criminals.",
-                future: "As more businesses move online, cybersecurity is one of the fastest-growing sectors globally. Excellent opportunities for international travel and consulting.",
-                subjectText: "OCR J277 Computer Science",
-                colorClass: "text-white",
-                bgClass: "bg-white/10",
-                borderClass: "border-white",
-                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
-            },
-            uiux: {
-                id: 'uiux',
-                title: "UI/UX Designer",
-                salary: "£28,000 - £85,000+",
-                quals: "BTEC DIT ➔ Creative A-Levels ➔ Design Degree",
-                subjects: "Art & Design, Media, Business",
-                desc: "Design the interactive kiosks, mobile apps, and websites of the future. You'll focus on making technology beautiful and incredibly easy for humans to use, blending art with tech.",
-                future: "AI can write basic code, but human empathy and design thinking are irreplaceable. UX designers are crucial for making complex AI systems accessible.",
-                subjectText: "Pearson BTEC DIT",
-                colorClass: "text-brand-secondary",
-                bgClass: "bg-yellow-500/20",
-                borderClass: "border-brand-secondary",
-                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'
-            },
-            data: {
-                id: 'data',
-                title: "Data Analyst & Manager",
-                salary: "£32,000 - £90,000+",
-                quals: "BTEC DIT ➔ Business IT A-Levels ➔ Degree",
-                subjects: "Business Studies, Maths, Economics",
-                desc: "Use spreadsheets and data modelling to help businesses make critical decisions. You will organize massive amounts of information to find trends and manage large tech projects.",
-                future: "Data is the new oil. Every international business needs experts who can model data and manage digital workflows. This is a great pathway into senior management.",
-                subjectText: "Pearson BTEC DIT",
-                colorClass: "text-brand-accent",
-                bgClass: "bg-red-500/20",
-                borderClass: "border-brand-accent",
-                icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>'
-            }
-        };
+const careers = {
+    software: {
+        id: 'software',
+        title: "Software / AI Developer",
+        salaryJunior: "£35,000",
+        salaryMid: "£60,000",
+        salarySenior: "£120,000+",
+        quals: "GCSE Comp Sci ➔ A-Level Maths & Comp Sci ➔ BSc Computer Science or Degree Apprenticeship",
+        subjects: "Computer Science, Maths, Further Maths, Physics",
+        desc: "Create the digital tools we use every day. Your main technical tasks include: 1) Building the 'Brain' - writing the hidden code that makes apps, websites, and databases actually work. 2) Teaching Computers (AI) - feeding large amounts of data to artificial intelligence so it can learn to spot patterns and solve complex puzzles. 3) Connecting Systems - writing secure code that allows different programs and servers to talk to each other across the internet.",
+        future: "With the rapid expansion of artificial intelligence, cloud computing, and automation, software engineering remains one of the most secure, globally in-demand, and highly compensated career paths.",
+        subjectText: "OCR J277 Computer Science",
+        colorClass: "text-brand-accent",
+        bgClass: "bg-red-500/20",
+        borderClass: "border-brand-accent",
+        icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>'
+    },
+    cyber: {
+        id: 'cyber',
+        title: "Cybersecurity Analyst",
+        salaryJunior: "£30,000",
+        salaryMid: "£55,000",
+        salarySenior: "£100,000+",
+        quals: "GCSE Comp Sci ➔ IT/Computing A-Level or BTEC ➔ BSc Cybersecurity or Industry Certs",
+        subjects: "Computer Science, Maths, IT",
+        desc: "Act as a digital detective to keep hackers out of important systems. Your main technical tasks include: 1) Ethical Hacking - safely trying to break into your own company's computers to find weak spots before the bad guys do. 2) Network Monitoring - watching live data flows to spot any suspicious behavior, viruses, or unauthorized logins. 3) Building Defenses - writing custom scripts that automatically block cyber attacks and lock down private information.",
+        future: "As cyber threats become more sophisticated and data privacy regulations tighten, cybersecurity professionals are in critical demand across all sectors, from finance to national defense.",
+        subjectText: "OCR J277 Computer Science",
+        colorClass: "text-white",
+        bgClass: "bg-white/10",
+        borderClass: "border-white",
+        icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+    },
+    uiux: {
+        id: 'uiux',
+        title: "UI / UX Designer",
+        salaryJunior: "£28,000",
+        salaryMid: "£45,000",
+        salarySenior: "£85,000+",
+        quals: "GCSE Art/DIT ➔ Creative A-Levels/BTEC ➔ BA Digital Design or HCI Degree",
+        subjects: "Graphic Design, Psychology, Media, Computer Science",
+        desc: "Design how technology looks and feels so it is easy for humans to use. Your main technical tasks include: 1) User Research - testing apps with real people to track where they get confused, frustrated, or stuck. 2) Creating Blueprints - drawing out the interactive screens, buttons, and menus so everything is logically organized. 3) Designing for Everyone - following strict guidelines to make sure the software is accessible to people with visual impairments or disabilities.",
+        future: "As technology becomes more complex, the need for empathetic, user-centered design is skyrocketing to ensure products are highly accessible, engaging, and easy to navigate.",
+        subjectText: "Pearson BTEC DIT",
+        colorClass: "text-brand-secondary",
+        bgClass: "bg-yellow-500/20",
+        borderClass: "border-brand-secondary",
+        icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="p-2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>'
+    },
+    gamedev: {
+        id: 'gamedev',
+        title: "Video Game Developer",
+        salaryJunior: "£35,000",
+        salaryMid: "£55,000",
+        salarySenior: "£95,000+",
+        quals: "GCSE Comp Sci ➔ A-Level Comp Sci & Maths ➔ BSc Games Programming",
+        subjects: "Computer Science, Maths, Physics",
+        desc: "Bring interactive worlds to life through complex code and mathematics. Your main technical tasks include: 1) Coding the Rules - programming the core physics, how characters move, and what happens when players interact with objects. 2) Creating Smart Enemies - writing the artificial intelligence (AI) that makes in-game opponents react realistically to the player. 3) Optimizing Performance - managing the computer's memory so that complex 3D graphics load incredibly fast without lagging the console.",
+        future: "The global gaming industry generates more revenue than film and music combined. The continuous push into VR/AR and real-time simulation ensures a high demand for specialized engine programmers.",
+        subjectText: "Computer Science & IT",
+        colorClass: "text-indigo-400",
+        bgClass: "bg-indigo-500/20",
+        borderClass: "border-indigo-400",
+        icon: '<svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="p-2"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15" cy="13" r="1"/><circle cx="18" cy="11" r="1"/><path d="M6.75 6L3 11l.85 7.15a2 2 0 0 0 2 1.85h12.3a2 2 0 0 0 2-1.85L21 11l-3.75-5z"/></svg>'
+    }
+};
 
         // --- Data Definitions: Subject Breakdowns ---
         const subjectsData = {
